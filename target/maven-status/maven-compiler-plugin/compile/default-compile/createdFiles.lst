@@ -1,0 +1,9 @@
+br\sergio\math\Line.class
+br\sergio\math\Polynomial.class
+br\sergio\math\QuadraticFunction.class
+br\sergio\math\Vector.class
+br\sergio\math\Point.class
+br\sergio\math\Complex.class
+br\sergio\math\MathException.class
+br\sergio\math\Math.class
+br\sergio\math\CubicFunction.class
