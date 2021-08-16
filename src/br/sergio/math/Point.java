@@ -1,13 +1,16 @@
 package br.sergio.math;
 
+import java.io.Serializable;
+
 /**
  * Classe que representa um ponto no plano ou
  * espaço cartesiano.
  * @author Sergio Luis
  *
  */
-public class Point {
+public class Point implements Serializable {
 	
+	private static final long serialVersionUID = -6549017633827092829L;
 	public static final Point ORIGIN;
 	private double x, y, z;
 	
@@ -95,7 +98,7 @@ public class Point {
 	 * @return a distância.
 	 */
 	public double distance(Point p) {
-		return Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2) + Math.pow(z - p.z, 2));
+		return AdvancedMath.sqrt(AdvancedMath.pow(x - p.x, 2) + AdvancedMath.pow(y - p.y, 2) + AdvancedMath.pow(z - p.z, 2));
 	}
 	
 	/**

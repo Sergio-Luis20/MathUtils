@@ -1,12 +1,15 @@
 package br.sergio.math;
 
+import java.io.Serializable;
+
 /**
  * Classe que representa uma função polinomial.
  * @author Sergio Luis
  *
  */
-public class Polynomial {
+public class Polynomial implements Serializable {
 	
+	private static final long serialVersionUID = 3600066572161093871L;
 	private double[] coefficients;
 	
 	/**
@@ -67,7 +70,7 @@ public class Polynomial {
 		double fx = 0;
 		for(int i = 0; i < coefficients.length; i++) {
 			int exponent = coefficients.length - i - 1;
-			fx += coefficients[i] * Math.pow(x, exponent);
+			fx += coefficients[i] * AdvancedMath.pow(x, exponent);
 		}
 		return fx;
 	}
@@ -178,7 +181,7 @@ public class Polynomial {
 			product *= coef;
 			sum += coef;
 		}
-		double rq = Math.sqrt(product);
+		double rq = AdvancedMath.sqrt(product);
 		return (int) (sum * rq);
 	}
 	
@@ -186,7 +189,7 @@ public class Polynomial {
 	public String toString() {
 		if(coefficients.length == 1) {
 			String coefficient = String.valueOf(coefficients[0]);
-			if(Math.integer(coefficients[0])) {
+			if(AdvancedMath.integer(coefficients[0])) {
 				coefficient = coefficient.substring(0, coefficient.indexOf("."));
 			}
 			return coefficient;
@@ -202,7 +205,7 @@ public class Polynomial {
 			} else if(i == coefficients.length - 1) {
 				literalPart = "";
 			} else {
-				literalPart = "x" + Math.superscript(coefficients.length - i - 1);
+				literalPart = "x" + AdvancedMath.superscript(coefficients.length - i - 1);
 			}
 			String coefficient;
 			if((i != coefficients.length - 1)) {
@@ -218,7 +221,7 @@ public class Polynomial {
 				String sign = coefficients[i] > 0 ? "+" : "";
 				coefficient = sign + coefficients[i];
 			}
-			if(Math.integer(coefficients[i]) && coefficient.length() != 1 && !coefficient.isEmpty()) {
+			if(AdvancedMath.integer(coefficients[i]) && coefficient.length() != 1 && !coefficient.isEmpty()) {
 				coefficient = coefficient.substring(0, coefficient.indexOf("."));
 			}
 			sb.append(coefficient + literalPart);

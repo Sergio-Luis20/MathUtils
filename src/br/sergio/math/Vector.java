@@ -1,18 +1,24 @@
 package br.sergio.math;
 
+import java.io.Serializable;
+
 /**
  * Classe que representa um vetor no plano ou espaço
  * cartesiano.
  * @author Sergio Luis
- *
+ * 
  */
-public class Vector {
+public class Vector implements Serializable {
 	
 	/**
 	 * Representa o vetor nulo, cujo módulo é 0 e forma um ângulo reto com qualquer outro vetor.
 	 */
 	public static final Vector NULL;
-	protected double modulus;
+	public static final Vector VERSOR_I;
+	public static final Vector VERSOR_J;
+	public static final Vector VERSOR_K;
+	private static final long serialVersionUID = -5038901127627957479L;
+	protected double magnitude;
 	protected double x, y, z;
 	protected Point origin, end;
 	
@@ -43,7 +49,28 @@ public class Vector {
 		x = difference.getX();
 		y = difference.getY();
 		z = difference.getZ();
-		modulus = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+		magnitude = AdvancedMath.sqrt(AdvancedMath.pow(x, 2) + AdvancedMath.pow(y, 2) + AdvancedMath.pow(z, 2));
+	}
+	
+	/**
+	 * Cria um vetor no plano cartesiano que tem origem na origem do plano e
+	 * extremidade no ponto (i, j).
+	 * @param i a abscissa da extremidade.
+	 * @param j a ordenada da extremidade.
+	 */
+	public Vector(double i, double j) {
+		this(i, j, 0);
+	}
+	
+	/**
+	 * Cria um vetor no espaço cartesiano que tem origem na origem do espaço e
+	 * extremidade no ponto (i, j, k).
+	 * @param i a abscissa da extremidade.
+	 * @param j a ordenada da extremidade.
+	 * @param k a cota da extremidade.
+	 */
+	public Vector(double i, double j, double k) {
+		this(new Point(i, j, k));
 	}
 	
 	/**
@@ -59,18 +86,18 @@ public class Vector {
 		x = p.getX();
 		y = p.getY();
 		z = p.getZ();
-		modulus = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+		magnitude = AdvancedMath.sqrt(AdvancedMath.pow(x, 2) + AdvancedMath.pow(y, 2) + AdvancedMath.pow(z, 2));
 	}
 	
 	/**
-	 * Constrói um vetor usando a informação do módulo e do ângulo fornecido.
+	 * Constrói um vetor no plano usando a informação do módulo e do ângulo fornecido.
 	 * O ângulo deve estar em radianos.
-	 * @param modulus o módulo.
+	 * @param magnitude o módulo.
 	 * @param angle o ângulo.
 	 * @return o referido vetor.
 	 */
-	public static Vector trigonometric(double modulus, double angle) {
-		return new Point(Math.abs(modulus) * Math.cos(angle, true), Math.abs(modulus) * Math.sin(angle, true)).toVector();
+	public static Vector trigonometric(double magnitude, double angle) {
+		return new Vector(AdvancedMath.abs(magnitude) * AdvancedMath.cos(angle, true), AdvancedMath.abs(magnitude) * AdvancedMath.sin(angle, true));
 	}
 	
 	/**
@@ -114,7 +141,7 @@ public class Vector {
 	 * @param v o vetor para fazer o produto escalar.
 	 * @return o produto escalar.
 	 */
-	public double scalarProduct(Vector v) {
+	public double dotProduct(Vector v) {
 		return x * v.x + y * v.y + z * v.z;
 	}
 	
@@ -127,7 +154,7 @@ public class Vector {
 	 * @param v o vetor para fazer o produto vetorial.
 	 * @return o produto vetorial.
 	 */
-	public Vector vectorialProduct(Vector v) {
+	public Vector crossProduct(Vector v) {
 		double i = y * v.z - v.y * z;
 		double j = v.x * z - x * v.z;
 		double k = x * v.y - v.x * y;
@@ -143,7 +170,7 @@ public class Vector {
 		if(v.equals(NULL)) {
 			return NULL;
 		} else {
-			return v.multiplyByScalar(scalarProduct(v) / v.scalarProduct(v));
+			return v.multiplyByScalar(dotProduct(v) / v.dotProduct(v));
 		}
 	}
 	
@@ -157,7 +184,7 @@ public class Vector {
 		if(equals(NULL)) {
 			throw new MathException("O vetor nulo não possui versor.");
 		}
-		return multiplyByScalar(1 / modulus);
+		return multiplyByScalar(1 / magnitude);
 	}
 	
 	/**
@@ -171,7 +198,7 @@ public class Vector {
 		if(equals(NULL)) {
 			throw new MathException("O vetor nulo não pode gerar um vetor com módulo diferente de 0 através de uma multiplicação.");
 		}
-		return multiplyByScalar(Math.abs(scalar) / modulus);
+		return multiplyByScalar(AdvancedMath.abs(scalar) / magnitude);
 	}
 	
 	/**
@@ -184,17 +211,17 @@ public class Vector {
 	 */
 	public double angle(Vector v) {
 		if(equals(NULL) || v.equals(NULL)) {
-			return Math.PI / 2;
+			return AdvancedMath.PI / 2;
 		} else {
-			return Math.arccos(scalarProduct(v) / (modulus * v.modulus), true);
+			return AdvancedMath.arccos(dotProduct(v) / (magnitude * v.magnitude), true);
 		}
 	}
 	
 	/**
 	 * @return o módulo deste vetor. É sempre positivo.
 	 */
-	public double getModulus() {
-		return modulus;
+	public double getMagnitude() {
+		return magnitude;
 	}
 	
 	/**
@@ -251,5 +278,8 @@ public class Vector {
 	
 	static {
 		NULL = new Vector();
+		VERSOR_I = new Vector(1, 0, 0);
+		VERSOR_J = new Vector(0, 1, 0);
+		VERSOR_K = new Vector(0, 0, 1);
 	}
 }

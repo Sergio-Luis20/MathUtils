@@ -1,12 +1,15 @@
 package br.sergio.math;
 
+import java.io.Serializable;
+
 /**
  * Classe que representa uma reta no plano cartesiano.
  * @author Sergio Luis
  *
  */
-public class Line {
+public class Line implements Serializable {
 	
+	private static final long serialVersionUID = -7775489504409777491L;
 	private double a, b, c, m, angle;
 	
 	/**
@@ -27,7 +30,7 @@ public class Line {
 		} else {
 			m = -a / b;
 		}
-		angle = Math.arctan(m, true);
+		angle = AdvancedMath.arctan(m, true);
 	}
 	
 	/**
@@ -85,7 +88,7 @@ public class Line {
 	 * @return a distância.
 	 */
 	public double distanceToPoint(Point p) {
-		return Math.abs(a * p.getX() + b * p.getY() + c) / Math.hypotenuse(a, b);
+		return AdvancedMath.abs(a * p.getX() + b * p.getY() + c) / AdvancedMath.hypotenuse(a, b);
 	}
 	
 	/**
@@ -98,7 +101,7 @@ public class Line {
 		if(m != line.m) {
 			return 0;
 		} else {
-			return Math.abs(c - line.c) / Math.hypotenuse(a, b);
+			return AdvancedMath.abs(c - line.c) / AdvancedMath.hypotenuse(a, b);
 		}
 	}
 	

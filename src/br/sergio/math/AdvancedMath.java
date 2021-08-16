@@ -15,9 +15,9 @@ import java.util.Random;
  * @author Sergio Luis
  *
  */
-public final class Math {
+public final class AdvancedMath {
 	
-	private Math() {
+	private AdvancedMath() {
 		
 	}
 	
@@ -26,7 +26,7 @@ public final class Math {
 	 * comprimento de uma circunferência pelo seu diâmetro.
 	 * Aproximação mais comum: 3,14.
 	 */
-	public static final double PI = java.lang.Math.PI;
+	public static final double PI = Math.PI;
 	
 	/**
 	 * Constante e. Representa o número de Euler, às vezes
@@ -35,7 +35,7 @@ public final class Math {
 	 * delas é através de um dos limites fundamentais.
 	 * Aproximação mais comum: 2,72.
 	 */
-	public static final double E = java.lang.Math.E;
+	public static final double E = Math.E;
 	
 	/**
 	 * Constante fi. Também chamada de número de ouro ou razão áurea.
@@ -59,7 +59,7 @@ public final class Math {
 		if(positiveReal < 0) {
 			throw new MathException("O valor dado deve ser um real positivo.");
 		}
-		return java.lang.Math.sqrt(positiveReal);
+		return Math.sqrt(positiveReal);
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public final class Math {
 	 * @return a referida raiz cúbica.
 	 */
 	public static double cbrt(double real) {
-		return (real < 0 ? -1 : 1) * java.lang.Math.cbrt(abs(real));
+		return (real < 0 ? -1 : 1) * Math.cbrt(abs(real));
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public final class Math {
 		if(base < 0 && !integer(exponent)) {
 			throw new MathException("A base não pode ser negativa se o expoente não for inteiro. Utilize a classe Complex para este caso.");
 		}
-		return java.lang.Math.pow(base, exponent);
+		return Math.pow(base, exponent);
 	}
 	
 	/**
@@ -141,21 +141,34 @@ public final class Math {
 		if(logarithming <= 0) {
 			throw new MathException("O logaritmando não pode ser menor ou igual a 0.");
 		}
-		return java.lang.Math.log10(logarithming);
+		return Math.log10(logarithming);
 	}
 	
 	/**
 	 * Retorna o logaritmo natural ou neperiano para um dado logaritmando.
 	 * Este logaritmo tem como base o número de Euler (a constante e).
 	 * @param logarithming o logaritmando.
-	 * @return o logaritmo
+	 * @return o logaritmo.
 	 * @throws MathException se o logaritmando for menor ou igual a 0.
 	 */
 	public static double ln(double logarithming) {
 		if(logarithming <= 0) {
 			throw new MathException("O logaritmando não pode ser menor ou igual a 0.");
 		}
-		return java.lang.Math.log(logarithming);
+		return Math.log(logarithming);
+	}
+	
+	/**
+	 * Retorna o logaritmo binário (de base 2) para um dado logaritmando.
+	 * @param logarithming o logaritmando.
+	 * @return o logaritmo.
+	 * @throws MathException se o logaritmando for menor ou igual a 0.
+	 */
+	public static double log2(double logarithming) {
+		if(logarithming <= 0) {
+			throw new MathException("O logaritmando não pode ser menor ou igual a 0.");
+		}
+		return log(2, logarithming);
 	}
 	
 	/**
@@ -377,7 +390,16 @@ public final class Math {
 				return even(n) ? 1 : -1;
 			}
 		}
-		return java.lang.Math.sin(rad);
+		return Math.sin(rad);
+	}
+	
+	/**
+	 * Retorna o seno de um dado valor em radianos.
+	 * @param value o valor.
+	 * @return o seno.
+	 */
+	public static double sin(double value) {
+		return sin(value, true);
 	}
 	
 	/**
@@ -396,7 +418,16 @@ public final class Math {
 				return k % 4 == 0 ? 1 : -1;
 			}
 		}
-		return java.lang.Math.cos(rad);
+		return Math.cos(rad);
+	}
+	
+	/**
+	 * Retorna o cosseno de um dado valor em radianos.
+	 * @param value o valor.
+	 * @return o cosseno.
+	 */
+	public static double cos(double value) {
+		return cos(value, true);
 	}
 	
 	/**
@@ -418,8 +449,17 @@ public final class Math {
 		} else if(sine == -1) {
 			return Double.NEGATIVE_INFINITY;
 		} else {
-			return java.lang.Math.tan(rad);
+			return Math.tan(rad);
 		}
+	}
+	
+	/**
+	 * Retorna a tangente de um dado valor em radianos.
+	 * @param value o valor.
+	 * @return a tangente.
+	 */
+	public static double tan(double value) {
+		return tan(value, true);
 	}
 	
 	/**
@@ -446,6 +486,15 @@ public final class Math {
 	}
 	
 	/**
+	 * Retorna a cotangente de um dado valor em radianos.
+	 * @param value o valor.
+	 * @return a cotangente.
+	 */
+	public static double cotan(double value) {
+		return cotan(value, true);
+	}
+	
+	/**
 	 * Retorna a secante de um dado valor. A secante é definida como 1 / cos(x) (inverso do cosseno).
 	 * Por esse motivo, caso o cosseno valha 0, a secante não está definida nesse ângulo.
 	 * Isso ocorre quando o ângulo é múltiplo ímpar de pi / 2.
@@ -463,6 +512,15 @@ public final class Math {
 		} else {
 			return 1 / cos(rad, true);
 		}
+	}
+	
+	/**
+	 * Retorna a secante de um dado valor em radianos.
+	 * @param value o valor.
+	 * @return a secante.
+	 */
+	public static double sec(double value) {
+		return sec(value, true);
 	}
 	
 	/**
@@ -486,12 +544,21 @@ public final class Math {
 	}
 	
 	/**
+	 * Retorna a cossecante de um dado valor em radianos.
+	 * @param value o valor.
+	 * @return a cossecante.
+	 */
+	public static double cosec(double value) {
+		return cosec(value, true);
+	}
+	
+	/**
 	 * Transforma um ângulo em graus em seu correspondente em radianos.
 	 * @param degrees o ângulo em graus.
 	 * @return o ângulo em radianos.
 	 */
 	public static double toRadians(double degrees) {
-		return java.lang.Math.toRadians(degrees);
+		return Math.toRadians(degrees);
 	}
 	
 	/**
@@ -500,7 +567,7 @@ public final class Math {
 	 * @return o ângulo em graus.
 	 */
 	public static double toDegrees(double radians) {
-		return java.lang.Math.toDegrees(radians);
+		return Math.toDegrees(radians);
 	}
 	
 	/**
@@ -512,8 +579,17 @@ public final class Math {
 	 * @return o ângulo.
 	 */
 	public static double arcsin(double value, boolean radians) {
-		double arcsin = java.lang.Math.asin(value);
+		double arcsin = Math.asin(value);
 		return radians ? arcsin : toDegrees(arcsin);
+	}
+	
+	/**
+	 * Retorna o arco seno em radianos de um dado valor.
+	 * @param value o seno.
+	 * @return o arco seno.
+	 */
+	public static double arcsin(double value) {
+		return arcsin(value, true);
 	}
 	
 	/**
@@ -525,8 +601,17 @@ public final class Math {
 	 * @return o ângulo.
 	 */
 	public static double arccos(double value, boolean radians) {
-		double arccos = java.lang.Math.acos(value);
+		double arccos = Math.acos(value);
 		return radians ? arccos : toDegrees(arccos);
+	}
+	
+	/**
+	 * Retorna o arco cosseno em radianos de um dado valor.
+	 * @param value o cosseno.
+	 * @return o arco cosseno.
+	 */
+	public static double arccos(double value) {
+		return arccos(value, true);
 	}
 	
 	/**
@@ -544,8 +629,17 @@ public final class Math {
 	 * @return o ângulo.
 	 */
 	public static double arctan(double value, boolean radians) {
-		double arctan = java.lang.Math.atan(value);
+		double arctan = Math.atan(value);
 		return radians ? arctan : toDegrees(arctan);
+	}
+	
+	/**
+	 * Retorna o arco tangente em radianos de um dado valor.
+	 * @param value a tangente.
+	 * @return o arco tangente.
+	 */
+	public static double arctan(double value) {
+		return arctan(value, true);
 	}
 	
 	/**
@@ -578,6 +672,15 @@ public final class Math {
 	}
 	
 	/**
+	 * Retorna o arco cotangente em radianos de um dado valor.
+	 * @param value a cotangente.
+	 * @return o arco cotangente.
+	 */
+	public static double arccotan(double value) {
+		return arccotan(value, true);
+	}
+	
+	/**
 	 * Retorna o ângulo no intervalo [0, pi] cuja secante é o valor dado.
 	 * A secante não está definida quando o ângulo é múltiplo ímpar de pi / 2; por esse
 	 * motivo, por convenção, para valores de entrada Double.POSITIVE_INFINITY ou
@@ -604,6 +707,15 @@ public final class Math {
 	}
 	
 	/**
+	 * Retorna o arco secante em radianos de um dado valor.
+	 * @param value a secante.
+	 * @return o arco secante.
+	 */
+	public static double arcsec(double value) {
+		return arcsec(value, true);
+	}
+	
+	/**
 	 * Retorna o ângulo no intervalo [-pi / 2, pi / 2] cuja cossecante é o valor dado.
 	 * A cossecante não está definida quando o ângulo é múltiplo de pi; por esse motivo,
 	 * por convenção, para valores de entrada Double.POSITIVE_INFINITY ou Double.NEGATIVE_INFINITY,
@@ -626,6 +738,15 @@ public final class Math {
 			double arcsin = arcsin(sin, true);
 			return radians ? arcsin : toDegrees(arcsin);
 		}
+	}
+	
+	/**
+	 * Retorna o arco cossecante em radianos de um dado valor.
+	 * @param value a cossecante.
+	 * @return o arco cossecante.
+	 */
+	public static double arccosec(double value) {
+		return arccosec(value, true);
 	}
 	
 	/**
@@ -770,7 +891,7 @@ public final class Math {
 	 * @return a imagem da função piso para o valor dado.
 	 */
 	public static double floor(double value) {
-		return java.lang.Math.floor(value);
+		return Math.floor(value);
 	}
 	
 	/**
@@ -781,7 +902,7 @@ public final class Math {
 	 * @return a imagem da função teto para o valor dado.
 	 */
 	public static double ceil(double value) {
-		return java.lang.Math.ceil(value);
+		return Math.ceil(value);
 	}
 	
 	/**
@@ -792,7 +913,7 @@ public final class Math {
 	 * @return o valor arredondado.
 	 */
 	public static long round(double value) {
-		return java.lang.Math.round(value);
+		return Math.round(value);
 	}
 	
 	/**

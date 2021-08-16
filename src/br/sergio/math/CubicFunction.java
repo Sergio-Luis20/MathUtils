@@ -7,6 +7,7 @@ package br.sergio.math;
  */
 public class CubicFunction extends Polynomial {
 	
+	private static final long serialVersionUID = 8020826963395681621L;
 	private double a, b, c, d;
 	private Complex realRoot;
 	private Complex plusRoot;
@@ -26,12 +27,12 @@ public class CubicFunction extends Polynomial {
 		this.b = b;
 		this.c = c;
 		this.d = d;
-		double p = c / a - Math.pow(b, 2) / (3 * Math.pow(a, 2));
-		double q = d / a - b * c / (3 * Math.pow(a, 2)) + 2 * Math.pow(b, 3) / (27 * Math.pow(a, 3));
-		double delta = Math.pow(q, 2) / 4 + Math.pow(p, 3) / 27;
+		double p = c / a - AdvancedMath.pow(b, 2) / (3 * AdvancedMath.pow(a, 2));
+		double q = d / a - b * c / (3 * AdvancedMath.pow(a, 2)) + 2 * AdvancedMath.pow(b, 3) / (27 * AdvancedMath.pow(a, 3));
+		double delta = AdvancedMath.pow(q, 2) / 4 + AdvancedMath.pow(p, 3) / 27;
 		Complex constant = new Complex(-b / (3 * a));
 		Complex rootDelta = new Complex(delta).sqrt();
-		Complex factor1 = new Complex(-0.5, Math.sqrt(3) / 2);
+		Complex factor1 = new Complex(-0.5, AdvancedMath.sqrt(3) / 2);
 		Complex factor2 = factor1.conjugate();
 		Complex base1 = new Complex(-q / 2).add(rootDelta).cbrt();
 		Complex base2 = new Complex(-q / 2).subtract(rootDelta).cbrt();

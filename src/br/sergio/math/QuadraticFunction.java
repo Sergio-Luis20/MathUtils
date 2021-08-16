@@ -7,6 +7,7 @@ package br.sergio.math;
  */
 public class QuadraticFunction extends Polynomial {
 	
+	private static final long serialVersionUID = 1721688693867376600L;
 	private double a, b, c;
 	private double delta;
 	private Point vertex;
@@ -24,7 +25,7 @@ public class QuadraticFunction extends Polynomial {
 		this.a = a;
 		this.b = b;
 		this.c = c;
-		delta = Math.pow(b, 2) - 4 * a * c;
+		delta = AdvancedMath.pow(b, 2) - 4 * a * c;
 		vertex = new Point(-b / (2 * a), -delta / (4 * a));
 		Complex minusB = new Complex(-b);
 		Complex rootDelta = new Complex(delta).sqrt();

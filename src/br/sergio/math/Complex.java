@@ -24,6 +24,7 @@ public class Complex extends Number implements Serializable, Comparable<Complex>
 	private double imaginary;
 	private double argument;
 	private double modulus;
+	private Vector vector;
 	
 	/**
 	 * Construtor.
@@ -80,7 +81,7 @@ public class Complex extends Number implements Serializable, Comparable<Complex>
 	 * @throws MathException se c for 0.
 	 */
 	public Complex divide(Complex c) {
-		double denom = Math.pow(c.real, 2) + Math.pow(c.imaginary, 2);
+		double denom = AdvancedMath.pow(c.real, 2) + AdvancedMath.pow(c.imaginary, 2);
 		if(denom == 0) {
 			throw new MathException("O complexo divisor não pode ser 0.");
 		}
@@ -103,7 +104,7 @@ public class Complex extends Number implements Serializable, Comparable<Complex>
 	 */
 	public Complex cbrt() {
 		if(isReal() && real < 0) {
-			return new Complex(-Math.cbrt(-real));
+			return new Complex(-AdvancedMath.cbrt(-real));
 		} else {
 			return pow(new Complex(1.0 / 3.0));
 		}
@@ -118,10 +119,10 @@ public class Complex extends Number implements Serializable, Comparable<Complex>
 		if(modulus == 0) {
 			return new Complex(0);
 		}
-		double theta = exp.real * argument + exp.imaginary * Math.ln(modulus);
-		double factor = Math.pow(modulus, exp.real) * Math.pow(Math.E, -exp.imaginary * argument);
-		double real = Math.cos(theta, true) * factor;
-		double imaginary = Math.sin(theta, true) * factor;
+		double theta = exp.real * argument + exp.imaginary * AdvancedMath.ln(modulus);
+		double factor = AdvancedMath.pow(modulus, exp.real) * AdvancedMath.pow(AdvancedMath.E, -exp.imaginary * argument);
+		double real = AdvancedMath.cos(theta, true) * factor;
+		double imaginary = AdvancedMath.sin(theta, true) * factor;
 		return new Complex(real, imaginary);
 	}
 	
@@ -158,24 +159,22 @@ public class Complex extends Number implements Serializable, Comparable<Complex>
 	 * @return o logaritmo natural deste complexo.
 	 */
 	public Complex ln() {
-		return new Complex(Math.ln(modulus), argument);
+		return new Complex(AdvancedMath.ln(modulus), argument);
 	}
 	
 	@Override
 	public boolean equals(Object o) {
-		if(o == null) {
-			return false;
-		} 
-		if(o instanceof Complex) {
-			Complex c = (Complex) o;
-			return c.real == real && c.imaginary == imaginary;
+		if(o != null && o instanceof Complex c) {
+			return real == c.real && imaginary == c.imaginary;
 		}
 		return false;
 	}
 	
 	@Override
 	public int hashCode() {
-		return (int) (real * imaginary);
+		Vector u = new Vector(real, imaginary, modulus);
+		Vector v = new Vector(real, imaginary, argument);
+		return (int) u.crossProduct(v).getMagnitude();
 	}
 	
 	@Override
@@ -184,34 +183,34 @@ public class Complex extends Number implements Serializable, Comparable<Complex>
 		if(real == 0 && imaginary == 0) {
 			value = "0";
 		} else {
-			String parteReal, parteImaginaria;
-			if(Math.integer(real)) {
-				parteReal = real == 0 ? "" : "" + (long) real;
+			String realPart, imaginaryPart;
+			if(AdvancedMath.integer(real)) {
+				realPart = real == 0 ? "" : "" + (long) real;
 			} else {
-				parteReal = real == 0 ? "" : "" + real;
+				realPart = real == 0 ? "" : "" + real;
 			}
-			if(Math.integer(imaginary)) {
-				parteImaginaria = imaginary == 0 ? "" : (long) imaginary + "i";
+			if(AdvancedMath.integer(imaginary)) {
+				imaginaryPart = imaginary == 0 ? "" : (long) imaginary + "i";
 			} else {
-				parteImaginaria = imaginary == 0 ? "" : imaginary + "i";
+				imaginaryPart = imaginary == 0 ? "" : imaginary + "i";
 			}
 			if(real != 0 && imaginary > 0) {
 				if(imaginary == 1) {
-					value = parteReal + "+i";
+					value = realPart + "+i";
 				} else {
-					value = parteReal + "+" + parteImaginaria;
+					value = realPart + "+" + imaginaryPart;
 				}
 			} else if(real == 0 && imaginary > 0) {
 				if(imaginary == 1) {
 					value = "i";
 				} else {
-					value = parteImaginaria;
+					value = imaginaryPart;
 				}
 			} else {
 				if(imaginary == -1) {
-					value = parteReal + "-i";
+					value = realPart + "-i";
 				} else {
-					value = parteReal + parteImaginaria;
+					value = realPart + imaginaryPart;
 				}
 			}
 		}
@@ -293,24 +292,10 @@ public class Complex extends Number implements Serializable, Comparable<Complex>
 		}
 	}
 	
-	private void setValues() {				
-		if(real == 0) {
-			argument = (imaginary >= 0 ? 1 : -1) * Math.PI / 2;
-		} else {
-			double arctan = real != 0 ? Math.arctan(Math.abs(imaginary / real), true) : 0;
-			if(real > 0 && imaginary > 0) {
-				argument = arctan;
-			} else if(real < 0 && imaginary < 0) {
-				argument = arctan - Math.PI;
-			} else if(real > 0 && imaginary < 0) {
-				argument = -arctan;
-			} else if(real < 0 && imaginary > 0) {
-				argument = Math.PI - arctan;
-			} else {
-				argument = real > 0 ? 0 : Math.PI;
-			}
-		}
-		modulus = Math.hypotenuse(real, imaginary);
+	private void setValues() {
+		vector = new Vector(real, imaginary);
+		modulus = vector.getMagnitude();
+		argument = Vector.VERSOR_I.angle(vector) * (imaginary >= 0 ? 1 : -1);
 	}
 	
 	/**
