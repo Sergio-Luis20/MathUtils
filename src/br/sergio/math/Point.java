@@ -12,7 +12,7 @@ public class Point implements Serializable {
 	
 	private static final long serialVersionUID = -6549017633827092829L;
 	public static final Point ORIGIN;
-	private double x, y, z;
+	protected double x, y, z;
 	
 	/**
 	 * Construtor de ponto no plano. Aqui,
@@ -145,8 +145,7 @@ public class Point implements Serializable {
 		if(o == null) {
 			return false;
 		}
-		if(o instanceof Point) {
-			Point p = (Point) o;
+		if(o instanceof Point p) {
 			return x == p.x && y == p.y && z == p.z;
 		}
 		return false;
@@ -162,7 +161,7 @@ public class Point implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "(" + x + "; " + y + "; " + z + ")";
+		return "(" + x + ", " + y + ", " + z + ")";
 	}
 	
 	/**

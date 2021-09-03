@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author Sergio Luis
  *
  */
-public class Line implements Serializable {
+public class Line2D implements Serializable {
 	
 	private static final long serialVersionUID = -7775489504409777491L;
 	private double a, b, c, m, angle;
@@ -18,7 +18,34 @@ public class Line implements Serializable {
 	 * @param b o coeficiente que acompanha y.
 	 * @param c o termo independente.
 	 */
-	public Line(double a, double b, double c) {
+	public Line2D(double a, double b, double c) {
+		subConstructor(a, b, c);
+	}
+	
+	/**
+	 * Construtor por pontos.
+	 * @param p1 o primeiro ponto.
+	 * @param p2 o segundo ponto.
+	 */
+	public Line2D(Point p1, Point p2) {
+		this(p1.getY() - p2.getY(), p2.getX() - p1.getX(), p1.getX() * p2.getY() - p2.getX() * p1.getY());
+	}
+	
+	/**
+	 * Retorna uma linha a partir de um ponto e de um dado coeficiente angular.
+	 * @param p o ponto.
+	 * @param m o coeficiente angular.
+	 * @return a reta;
+	 */
+	public Line2D(Point p, double m) {
+		if(Double.isInfinite(m)) {
+			subConstructor(1, 0, -p.getX());
+		} else {
+			subConstructor(-m, 1, p.getX() * m - p.getY());
+		}
+	}
+	
+	private void subConstructor(double a, double b, double c) {
 		if(a == 0 && b == 0) {
 			throw new MathException("A reta não pode ter os coeficientes valendo 0.");
 		}
@@ -31,29 +58,6 @@ public class Line implements Serializable {
 			m = -a / b;
 		}
 		angle = AdvancedMath.arctan(m, true);
-	}
-	
-	/**
-	 * Construtor por pontos.
-	 * @param p1 o primeiro ponto.
-	 * @param p2 o segundo ponto.
-	 */
-	public Line(Point p1, Point p2) {
-		this(p1.getY() - p2.getY(), p2.getX() - p1.getX(), p1.getX() * p2.getY() - p2.getX() * p1.getY());
-	}
-	
-	/**
-	 * Retorna uma linha a partir de um ponto e de um dado coeficiente angular.
-	 * @param p o ponto.
-	 * @param m o coeficiente angular.
-	 * @return a reta;
-	 */
-	public static Line forPointAndM(Point p, double m) {
-		if(Double.isInfinite(m)) {
-			return new Line(1, 0, -p.getX());
-		} else {
-			return new Line(-m, 1, p.getX() * m - p.getY());
-		}
 	}
 	
 	/**
@@ -87,7 +91,7 @@ public class Line implements Serializable {
 	 * @param p o ponto com o qual este terá sua distância calculada.
 	 * @return a distância.
 	 */
-	public double distanceToPoint(Point p) {
+	public double distance(Point p) {
 		return AdvancedMath.abs(a * p.getX() + b * p.getY() + c) / AdvancedMath.hypotenuse(a, b);
 	}
 	
@@ -97,7 +101,7 @@ public class Line implements Serializable {
 	 * @return a distância entre as duas retas. 0 se os coeficientes
 	 * angulares forem diferentes, ou seja, não forem paralelas.
 	 */
-	public double distanceToLine(Line line) {
+	public double distance(Line2D line) {
 		if(m != line.m) {
 			return 0;
 		} else {

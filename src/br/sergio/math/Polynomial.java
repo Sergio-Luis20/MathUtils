@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Polynomial implements Serializable {
 	
 	private static final long serialVersionUID = 3600066572161093871L;
-	private double[] coefficients;
+	protected double[] coefficients;
 	
 	/**
 	 * Constrói um polinômio com os dados coeficientes.

@@ -5,5 +5,6 @@ br\sergio\math\Vector.class
 br\sergio\math\AdvancedMath.class
 br\sergio\math\Point.class
 br\sergio\math\Complex.class
+br\sergio\math\Line2D.class
 br\sergio\math\MathException.class
 br\sergio\math\CubicFunction.class

@@ -8,10 +8,10 @@ package br.sergio.math;
 public class CubicFunction extends Polynomial {
 	
 	private static final long serialVersionUID = 8020826963395681621L;
-	private double a, b, c, d;
-	private Complex realRoot;
-	private Complex plusRoot;
-	private Complex minusRoot;
+	protected double a, b, c, d;
+	protected Complex realRoot;
+	protected Complex plusRoot;
+	protected Complex minusRoot;
 	
 	/**
 	 * Construtor. Faz uma função cúbica do tipo ax³ + bx² + cx + d.

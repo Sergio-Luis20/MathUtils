@@ -3,8 +3,7 @@ package br.sergio.math;
 import java.io.Serializable;
 
 /**
- * Classe que representa um vetor no plano ou espaço
- * cartesiano.
+ * Classe que representa um vetor no plano ou espaço cartesiano.
  * @author Sergio Luis
  * 
  */
@@ -14,9 +13,6 @@ public class Vector implements Serializable {
 	 * Representa o vetor nulo, cujo módulo é 0 e forma um ângulo reto com qualquer outro vetor.
 	 */
 	public static final Vector NULL;
-	public static final Vector VERSOR_I;
-	public static final Vector VERSOR_J;
-	public static final Vector VERSOR_K;
 	private static final long serialVersionUID = -5038901127627957479L;
 	protected double magnitude;
 	protected double x, y, z;
@@ -106,7 +102,7 @@ public class Vector implements Serializable {
 	 * @return o vetor soma.
 	 */
 	public Vector add(Vector v) {
-		return new Point(x + v.x, y + v.y, z + v.z).toVector();
+		return new Vector(x + v.x, y + v.y, z + v.z);
 	}
 	
 	/**
@@ -115,7 +111,7 @@ public class Vector implements Serializable {
 	 * @return o vetor diferença.
 	 */
 	public Vector subtract(Vector v) {
-		return new Point(x - v.x, y - v.y, z - v.z).toVector();
+		return new Vector(x - v.x, y - v.y, z - v.z);
 	}
 	
 	/**
@@ -132,7 +128,7 @@ public class Vector implements Serializable {
 		double x = this.x * scalar;
 		double y = this.y * scalar;
 		double z = this.z * scalar;
-		return new Point(x, y, z).toVector();
+		return new Vector(x, y, z);
 	}
 	
 	/**
@@ -175,6 +171,16 @@ public class Vector implements Serializable {
 	}
 	
 	/**
+	 * Diz se este vetor é múltiplo de outro.
+	 * @param v o vetor o qual se deseja verificar se é múltiplo.
+	 * @return true se for múltiplo, false caso contrário.
+	 */
+	public boolean isMultipleOf(Vector v) {
+		double angle = angle(v);
+		return angle == 0 || angle == AdvancedMath.PI;
+	}
+	
+	/**
 	 * O versor (também chamado de vetor unitário) é um vetor com a mesma direção
 	 * e sentido do original, porém com módulo igual a 1.
 	 * @return o versor deste vetor.
@@ -194,7 +200,7 @@ public class Vector implements Serializable {
 	 * @param scalar o novo módulo.
 	 * @return o vetor com a mesma direção e sentido deste, porém com o módulo fornecido.
 	 */
-	public Vector toNewModulus(double scalar) {
+	public Vector toNewMagnitude(double scalar) {
 		if(equals(NULL)) {
 			throw new MathException("O vetor nulo não pode gerar um vetor com módulo diferente de 0 através de uma multiplicação.");
 		}
@@ -213,7 +219,7 @@ public class Vector implements Serializable {
 		if(equals(NULL) || v.equals(NULL)) {
 			return AdvancedMath.PI / 2;
 		} else {
-			return AdvancedMath.arccos(dotProduct(v) / (magnitude * v.magnitude), true);
+			return AdvancedMath.arccos(dotProduct(v) / (magnitude * v.magnitude));
 		}
 	}
 	
@@ -253,8 +259,7 @@ public class Vector implements Serializable {
 		if(o == null) {
 			return false;
 		}
-		if(o instanceof Vector) {
-			Vector v = (Vector) o;
+		if(o instanceof Vector v) {
 			return x == v.x && y == v.y && z == v.z;
 		}
 		return false;
@@ -278,8 +283,5 @@ public class Vector implements Serializable {
 	
 	static {
 		NULL = new Vector();
-		VERSOR_I = new Vector(1, 0, 0);
-		VERSOR_J = new Vector(0, 1, 0);
-		VERSOR_K = new Vector(0, 0, 1);
 	}
 }

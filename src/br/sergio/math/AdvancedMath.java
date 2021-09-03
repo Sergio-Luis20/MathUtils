@@ -1056,10 +1056,10 @@ public final class AdvancedMath {
 		}
 		double[] x = Point.getXArray(vertices);
 		double[] y = Point.getYArray(vertices);
-		Line[] lines = new Line[vertices.length];
+		Line2D[] lines = new Line2D[vertices.length];
 		try {
 			for(int i = 0; i < vertices.length - 1; i++) {
-				lines[i] = new Line(vertices[i], vertices[i + 1]);
+				lines[i] = new Line2D(vertices[i], vertices[i + 1]);
 			}
 		} catch(MathException e) {
 			throw new MathException("Dois pontos seguidos não podem ser o mesmo.", e);

@@ -11,7 +11,7 @@ import java.util.List;
  * @author Sergio Luis
  *
  */
-public class Complex extends Number implements Serializable, Comparable<Complex> {
+public final class Complex extends Number implements Serializable, Comparable<Complex> {
 	
 	/**
 	 * Constante imaginária i. Representa a raiz quadrada principal do complexo -1.
@@ -34,7 +34,9 @@ public class Complex extends Number implements Serializable, Comparable<Complex>
 	public Complex(double real, double imaginary) {
 		this.real = real;
 		this.imaginary = imaginary;
-		setValues();
+		vector = new Vector(real, imaginary);
+		modulus = vector.getMagnitude();
+		argument = new Vector(1, 0).angle(vector) * (imaginary >= 0 ? 1 : -1);
 	}
 	
 	/**
@@ -292,12 +294,6 @@ public class Complex extends Number implements Serializable, Comparable<Complex>
 		}
 	}
 	
-	private void setValues() {
-		vector = new Vector(real, imaginary);
-		modulus = vector.getMagnitude();
-		argument = Vector.VERSOR_I.angle(vector) * (imaginary >= 0 ? 1 : -1);
-	}
-	
 	/**
 	 * @return a parte real.
 	 */
@@ -306,28 +302,10 @@ public class Complex extends Number implements Serializable, Comparable<Complex>
 	}
 	
 	/**
-	 * Define uma nova parte real.
-	 * @param real a nova parte real.
-	 */
-	public void setReal(double real) {
-		this.real = real;
-		setValues();
-	}
-	
-	/**
 	 * @return a parte imaginária.
 	 */
 	public double getImaginary() {
 		return imaginary;
-	}
-	
-	/**
-	 * Define uma nova parte imaginária.
-	 * @param imaginary a nova parte imaginária.
-	 */
-	public void setImaginary(double imaginary) {
-		this.imaginary = imaginary;
-		setValues();
 	}
 	
 	/**

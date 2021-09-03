@@ -8,10 +8,10 @@ package br.sergio.math;
 public class QuadraticFunction extends Polynomial {
 	
 	private static final long serialVersionUID = 1721688693867376600L;
-	private double a, b, c;
-	private double delta;
-	private Point vertex;
-	private Complex rootPlus, rootMinus;
+	protected double a, b, c;
+	protected double delta;
+	protected Point vertex;
+	protected Complex rootPlus, rootMinus;
 	
 	/**
 	 * Construtor. Faz uma função quadrática do tipo ax² + bx + c.
