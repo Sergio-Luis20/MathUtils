@@ -164,7 +164,7 @@ public final class AdvancedMath {
 	 * @return o logaritmo.
 	 * @throws MathException se o logaritmando for menor ou igual a 0.
 	 */
-	public static double log2(double logarithming) {
+	public static double lb(double logarithming) {
 		if(logarithming <= 0) {
 			throw new MathException("O logaritmando não pode ser menor ou igual a 0.");
 		}
@@ -982,7 +982,7 @@ public final class AdvancedMath {
 	}
 	
 	/**
-	 * Superescrição. Um método não muito recomendável, uma vez que dependendo da formatação,
+	 * Superescrição. Um método não muito recomendável, uma vez que, dependendo da formatação,
 	 * pode não funcionar corretamente. Ele transforma um valor inteiro em forma superescrita.
 	 * Exemplo: superscript(21) retorna ²¹. Aceita valores negativos.
 	 * @param value o valor.
@@ -1007,7 +1007,7 @@ public final class AdvancedMath {
 	}
 	
 	/**
-	 * Sobrescrição. Um método não muito recomendável, uma vez que dependendo da formatação,
+	 * Sobrescrição. Um método não muito recomendável, uma vez que, dependendo da formatação,
 	 * pode não funcionar corretamente. Ele transforma um valor inteiro em forma sobrescrita.
 	 * Exemplo: subscript(21) retorna ₂₁. Aceita valores negativos.
 	 * @param valor o valor.
@@ -1033,7 +1033,7 @@ public final class AdvancedMath {
 	
 	/**
 	 * Verifica se um determinado ponto encontra-se dentro de um polígono formado pelas
-	 * equações de reta geradas pelos pontos dados na lista de vértices. É importante
+	 * equações de reta geradas pelos pontos dados no array de vértices. É importante
 	 * ressaltar que é necessário seguir uma ordem específica na colocação dos vértices:
 	 * deve-se "desenhar" o polígono linearmente, seguindo um sentido horário ou anti-horário
 	 * (qualquer um dos dois serve e será detectado pelo método). Também é possível optar ou

@@ -60,7 +60,11 @@ public class Plane implements Serializable {
 	
 	@Override
 	public boolean equals(Object o) {
-		if(o != null && o instanceof Plane p) {
+		if(o == null) {
+			return false;
+		}
+		if(o instanceof Plane) {
+			Plane p = (Plane) o;
 			return point.equals(p.point) && vector.equals(p.vector);
 		}
 		return false;

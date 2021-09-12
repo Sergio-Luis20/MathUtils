@@ -145,7 +145,8 @@ public class Point implements Serializable {
 		if(o == null) {
 			return false;
 		}
-		if(o instanceof Point p) {
+		if(o instanceof Point) {
+			Point p = (Point) o;
 			return x == p.x && y == p.y && z == p.z;
 		}
 		return false;

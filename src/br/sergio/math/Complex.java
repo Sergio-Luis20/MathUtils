@@ -1,6 +1,5 @@
 package br.sergio.math;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  * @author Sergio Luis
  *
  */
-public final class Complex extends Number implements Serializable, Comparable<Complex> {
+public final class Complex extends Number implements Comparable<Complex> {
 	
 	/**
 	 * Constante imaginária i. Representa a raiz quadrada principal do complexo -1.
@@ -129,10 +128,7 @@ public final class Complex extends Number implements Serializable, Comparable<Co
 	}
 	
 	/**
-	 * O logaritmo deste complexo na base dada. Importante: não é recomendável utilizar os métodos
-	 * de logaritmo desta classe (ainda). Dependendo de alguns casos, podem retornar valores errados.
-	 * O método de logaritmo natural (ln) funciona corretamente, mas por não ser uma função injetora,
-	 * pode não dar um resultado esperado em alguns casos.
+	 * O logaritmo deste complexo na base dada.
 	 * @param base o complexo base.
 	 * @return o logaritmo deste complexo na base dada.
 	 */
@@ -143,10 +139,7 @@ public final class Complex extends Number implements Serializable, Comparable<Co
 	}
 	
 	/**
-	 * O logaritmo deste complexo na base 10. Importante: não é recomendável utilizar os métodos
-	 * de logaritmo desta classe (ainda). Dependendo de alguns casos, podem retornar valores errados.
-	 * O método de logaritmo natural (ln) funciona corretamente, mas por não ser uma função injetora,
-	 * pode não dar um resultado esperado em alguns casos.
+	 * Logaritmo decimal.
 	 * @return o logaritmo deste complexo na base 10.
 	 */
 	public Complex log10() {
@@ -154,19 +147,28 @@ public final class Complex extends Number implements Serializable, Comparable<Co
 	}
 	
 	/**
-	 * O logaritmo natural deste complexo. Importante: não é recomendável utilizar os métodos
-	 * de logaritmo desta classe (ainda). Dependendo de alguns casos, podem retornar valores errados.
-	 * Este método é a exceção, ele funciona (quase) corretamente. Por não ser uma função injetora,
-	 * pode não dar um resultado esperado em alguns casos.
-	 * @return o logaritmo natural deste complexo.
+	 * Logaritmo natural ou neperiano.
+	 * @return o logaritmo deste complexo na base e.
 	 */
 	public Complex ln() {
 		return new Complex(AdvancedMath.ln(modulus), argument);
 	}
+
+	/**
+	 * Logaritmo binário.
+	 * @return o logaritmo deste complexo na base 2.
+	 */
+	public Complex lb() {
+		return log(new Complex(2));
+	}
 	
 	@Override
 	public boolean equals(Object o) {
-		if(o != null && o instanceof Complex c) {
+		if(o == null) {
+			return false;
+		}
+		if(o instanceof Complex) {
+			Complex c = (Complex) o; 
 			return real == c.real && imaginary == c.imaginary;
 		}
 		return false;

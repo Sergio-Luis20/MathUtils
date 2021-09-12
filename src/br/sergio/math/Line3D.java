@@ -89,7 +89,11 @@ public class Line3D implements Serializable	 {
 	
 	@Override
 	public boolean equals(Object o) {
-		if(o != null && o instanceof Line3D line) {
+		if(o == null) {
+			return false;
+		}
+		if(o instanceof Line3D) {
+			Line3D line = (Line3D) o;
 			return point.equals(line.point) && vector.equals(line.vector);
 		}
 		return false;

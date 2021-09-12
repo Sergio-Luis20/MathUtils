@@ -12,7 +12,7 @@ public class Vector implements Serializable {
 	/**
 	 * Representa o vetor nulo, cujo módulo é 0 e forma um ângulo reto com qualquer outro vetor.
 	 */
-	public static final Vector NULL;
+	public static final Vector NULL = new Vector();
 	private static final long serialVersionUID = -5038901127627957479L;
 	protected double magnitude;
 	protected double x, y, z;
@@ -24,28 +24,8 @@ public class Vector implements Serializable {
 	 * cartesiano e têm módulo 0. Este vetor forma um ângulo reto
 	 * com qualquer outro vetor, incluindo consigo mesmo.
 	 */
-	private Vector() {
-		origin = Point.ORIGIN;
-		end = Point.ORIGIN;
-	}
-	
-	/**
-	 * Cria um vetor no plano ou espaço cartesiano. Neste construtor, o primeiro
-	 * parâmetro representa a origem do vetor e o segundo a sua extremidade, mas os métodos
-	 * getters sempre retornação as coordenadas da extremidade subtraídas das coordenadas da
-	 * origem, uma vez que representam os múltiplos dos versores i, j e k, respectivamente.
-	 * Para obter os pontos originais, utilize os métodos getOrigin() e getEnd().
-	 * @param origin o ponto origem.
-	 * @param end o ponto extremidade.
-	 */
-	public Vector(Point origin, Point end) {
-		this.origin = origin;
-		this.end = end;
-		Point difference = end.subtract(origin);
-		x = difference.getX();
-		y = difference.getY();
-		z = difference.getZ();
-		magnitude = AdvancedMath.sqrt(AdvancedMath.pow(x, 2) + AdvancedMath.pow(y, 2) + AdvancedMath.pow(z, 2));
+	public Vector() {
+		this(Point.ORIGIN, Point.ORIGIN);
 	}
 	
 	/**
@@ -66,9 +46,9 @@ public class Vector implements Serializable {
 	 * @param k a cota da extremidade.
 	 */
 	public Vector(double i, double j, double k) {
-		this(new Point(i, j, k));
+		this(Point.ORIGIN, new Point(i, j, k));
 	}
-	
+
 	/**
 	 * Cria um vetor no plano ou espaço cartesiano. Este construtor implica no vetor
 	 * ter origem na origem do plano ou espaço e extremidade no ponto fornecido. Lembrando
@@ -77,11 +57,25 @@ public class Vector implements Serializable {
 	 * @param p o ponto extremidade.
 	 */
 	public Vector(Point p) {
-		origin = Point.ORIGIN;
-		end = p;
-		x = p.getX();
-		y = p.getY();
-		z = p.getZ();
+		this(Point.ORIGIN, p);
+	}
+
+	/**
+	 * Cria um vetor no plano ou espaço cartesiano. Neste construtor, o primeiro
+	 * parâmetro representa a origem do vetor e o segundo a sua extremidade, mas os métodos
+	 * getters sempre retornação as coordenadas da extremidade subtraídas das coordenadas da
+	 * origem, uma vez que representam os múltiplos dos versores i, j e k, respectivamente.
+	 * Para obter os pontos originais, utilize os métodos getOrigin() e getEnd().
+	 * @param origin o ponto origem.
+	 * @param end o ponto extremidade.
+	 */
+	public Vector(Point origin, Point end) {
+		this.origin = new Point(origin);
+		this.end = new Point(end);
+		Point difference = end.subtract(origin);
+		x = difference.getX();
+		y = difference.getY();
+		z = difference.getZ();
 		magnitude = AdvancedMath.sqrt(AdvancedMath.pow(x, 2) + AdvancedMath.pow(y, 2) + AdvancedMath.pow(z, 2));
 	}
 	
@@ -222,6 +216,14 @@ public class Vector implements Serializable {
 			return AdvancedMath.arccos(dotProduct(v) / (magnitude * v.magnitude));
 		}
 	}
+
+	public Point getOrigin() {
+		return origin;
+	}
+
+	public Point getEnd() {
+		return end;
+	}
 	
 	/**
 	 * @return o módulo deste vetor. É sempre positivo.
@@ -237,6 +239,13 @@ public class Vector implements Serializable {
 	public double getX() {
 		return x;
 	}
+
+	/**
+	 * @return a projeção deste vetor sobre o eixo das abscissas.
+	 */
+	public Vector getI() {
+		return new Vector(x, 0, 0);
+	}
 	
 	/**
 	 * @return a ordenada da extremidade deste vetor em relação ao centro
@@ -244,6 +253,13 @@ public class Vector implements Serializable {
 	 */
 	public double getY() {
 		return y;
+	}
+
+	/**
+	 * @return a projeção deste vetor sobre o eixo das ordenadas.
+	 */
+	public Vector getJ() {
+		return new Vector(0, y, 0);
 	}
 	
 	/**
@@ -253,11 +269,21 @@ public class Vector implements Serializable {
 	public double getZ() {
 		return z;
 	}
+
+	/**
+	 * @return a projeção deste vetor sobre o eixo das cotas.
+	 */
+	public Vector getK() {
+		return new Vector(0, 0, z);
+	}
 	
 	@Override
 	public boolean equals(Object o) {
 		if(o == null) {
 			return false;
+		}
+		if(o == this) {
+			return true;
 		}
 		if(o instanceof Vector v) {
 			return x == v.x && y == v.y && z == v.z;
@@ -279,9 +305,5 @@ public class Vector implements Serializable {
 		String j = (y >= 0 ? "+" : "") + y + "j";
 		String k = (z >= 0 ? "+" : "") + z + "k";
 		return i + j + k;
-	}
-	
-	static {
-		NULL = new Vector();
 	}
 }
