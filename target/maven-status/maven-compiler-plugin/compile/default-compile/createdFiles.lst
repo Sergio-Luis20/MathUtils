@@ -1,0 +1,12 @@
+br\sergio\math\Plane.class
+br\sergio\math\Polynomial.class
+br\sergio\math\QuadraticFunction.class
+br\sergio\math\Vector.class
+br\sergio\math\AdvancedMath.class
+br\sergio\math\Point.class
+br\sergio\math\Rational.class
+br\sergio\math\Complex.class
+br\sergio\math\Line2D.class
+br\sergio\math\MathException.class
+br\sergio\math\Line3D.class
+br\sergio\math\CubicFunction.class

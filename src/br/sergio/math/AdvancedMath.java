@@ -98,17 +98,42 @@ public final class AdvancedMath {
 	 * @param base a base.
 	 * @param exponent o expoente.
 	 * @return o resultado da potenciação.
-	 * @throws MathException se a base for 0 e o expoente negativo ou
-	 * a base negativa e o expoente não inteiro.
+	 * @throws MathException se a base for 0 e o expoente menor ou
+	 * igual a 0 ou a base negativa e o expoente não inteiro.
 	 */
 	public static double pow(double base, double exponent) {
-		if(base == 0 && exponent < 0) {
-			throw new MathException("A base não pode ser 0 se o expoente for negativo.");
+		if(base == 0 && exponent <= 0) {
+			throw new MathException("A base não pode ser 0 se o expoente for negativo ou o próprio 0.");
 		}
 		if(base < 0 && !integer(exponent)) {
 			throw new MathException("A base não pode ser negativa se o expoente não for inteiro. Utilize a classe Complex para este caso.");
 		}
 		return Math.pow(base, exponent);
+	}
+	
+	/**
+	 * Retorna o resultado de uma potenciação com
+	 * expoente racional.
+	 * @param base a base.
+	 * @param rational o expoente.
+	 * @return o resultado da potenciação.
+	 * @throws MathException se a base for 0 e o expoente menor ou
+	 * igual a 0 ou a base menor que 0, o numerador ímpar e o denominador par.
+	 */
+	public static double pow(double base, Rational rational) {
+		if(base == 0 && rational.getNum() <= 0) {
+			throw new MathException("A base não pode ser 0 se o expoente for negativo.");
+		}
+		double n = Math.pow(base, rational.getNum());
+		if(n < 0) {
+			if(odd(rational.getDenom())) {
+				return -Math.pow(-n, 1.0 / rational.getDenom());
+			} else {
+				throw new MathException("Impossível tirar raiz par de um número negativo. Utilize a classe Complex para este caso.");
+			}
+		} else {
+			return Math.pow(n, 1.0 / rational.getDenom());
+		}
 	}
 	
 	/**
@@ -1360,8 +1385,10 @@ public final class AdvancedMath {
 	
 	/**
 	 * Mínimo Múltiplo Comum (MMC). Se algum dos valores for
-	 * menor ou igual a 0 ou todos os valores forem iguais a 1,
-	 * é retornado 1.
+	 * igual a 0 ou todos os valores forem iguais a 1,
+	 * é retornado 1. Este método trabalha com valores positivos;
+	 * se algum elemento negativo for encontrado, seu módulo será
+	 * usado. O resultado retornado é sempre positivo.
 	 * @param values os valores para calcular o mmc.
 	 * @return o mmc.
 	 */
@@ -1369,17 +1396,17 @@ public final class AdvancedMath {
 		int lcm = 1;
 		int[] x = values;
 		for(int i = 0; i < x.length; i++) {
-			if(x[i] <= 0) {
+			if(x[i] == 0) {
 				return lcm;
+			} else if(x[i] < 0) {
+				x[i] = -x[i];
 			}
 		}
-		boolean one = false;
+		boolean one = true;
 		for(int i = 0; i < x.length; i++) {
 			if(x[i] != 1) {
 				one = false;
 				break;
-			} else {
-				one = true;
 			}
 		}
 		if(one) {
@@ -1418,8 +1445,10 @@ public final class AdvancedMath {
 	
 	/**
 	 * Máximo Divisor Comum (MDC). Se algum dos valores for
-	 * menor ou igual a 0 ou todos os valores forem iguais a 1,
-	 * é retornado 1.
+	 * igual a 0 ou todos os valores forem iguais a 1,
+	 * é retornado 1. Este método trabalha com valores positivos;
+	 * se algum elemento negativo for encontrado, seu módulo será
+	 * usado. O resultado retornado é sempre positivo.
 	 * @param values os valores para calcular o mdc.
 	 * @return o mdc.
 	 */
@@ -1427,16 +1456,15 @@ public final class AdvancedMath {
 		int gcd = 1;
 		int[] x = values;
 		for(int i = 0; i < x.length; i++) {
-			if(x[i] <= 0) {
+			if(x[i] == 0) {
 				return gcd;
+			} else if(x[i] < 0) {
+				x[i] = -x[i];
 			}
 		}
-		boolean one = false;
+		boolean one = true;
 		for(int i = 0; i < x.length; i++) {
-			one = false;
-			if(x[i] == 1) {
-				one = true;
-			} else {
+			if(x[i] != 1) {
 				one = false;
 				break;
 			}
@@ -1473,22 +1501,22 @@ public final class AdvancedMath {
 		}
 		while(!end) {
 			ext:
-				for(int i = 2; i <= x[0]; i++) {
-					boolean div = true;
-					for(int j = 0; j < x.length; j++) {
-						if(!(x[j] % i == 0)) {
-							div = false;
-							break;
-						}
-					}
-					if(div) {
-						for(int j = 0; j < x.length; j++) {
-							x[j] /= i;
-						}
-						y.add(i);
-						break ext;
+			for(int i = 2; i <= x[0]; i++) {
+				boolean div = true;
+				for(int j = 0; j < x.length; j++) {
+					if(!(x[j] % i == 0)) {
+						div = false;
+						break;
 					}
 				}
+				if(div) {
+					for(int j = 0; j < x.length; j++) {
+						x[j] /= i;
+					}
+					y.add(i);
+					break ext;
+				}
+			}
 			for(int i = 2; i <= x[0]; i++) {
 				end = false;
 				for(int j = 0; j < x.length; j++) {
