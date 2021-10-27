@@ -70,7 +70,7 @@ public class Polynomial implements Serializable {
 		double fx = 0;
 		for(int i = 0; i < coefficients.length; i++) {
 			int exponent = coefficients.length - i - 1;
-			fx += coefficients[i] * AdvancedMath.pow(x, exponent);
+			fx += coefficients[i] * (exponent == 0 ? 1 : AdvancedMath.pow(x, exponent));
 		}
 		return fx;
 	}
@@ -84,7 +84,7 @@ public class Polynomial implements Serializable {
 		Complex fx = new Complex(0);
 		for(int i = 0; i < coefficients.length; i++) {
 			int exponent = coefficients.length - i - 1;
-			fx = fx.add(new Complex(coefficients[i]).multiply(x.pow(new Complex(exponent))));
+			fx = fx.add(new Complex(coefficients[i]).multiply(exponent == 0 ? new Complex(1) : x.pow(new Complex(exponent))));
 		}
 		return fx;
 	}
