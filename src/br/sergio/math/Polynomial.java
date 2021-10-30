@@ -63,7 +63,7 @@ public class Polynomial implements Serializable {
 	
 	/**
 	 * Retorna o f(x) para um dado x real considerando esta função polinomial.
-	 * @param x um real qualquer. Se há apenas 1 coeficiente, é retornado 0.
+	 * @param x um real qualquer. Se há apenas 1 coeficiente, ele é o retorno.
 	 * @return o f(x).
 	 */
 	public double f(double x) {
@@ -77,7 +77,7 @@ public class Polynomial implements Serializable {
 	
 	/**
 	 * Retorna o f(x) para um dado x complexo considerando esta função polinomial.
-	 * @param x um complexo qualquer. Se há apenas 1 coeficiente, é retornado 0.
+	 * @param x um complexo qualquer. Se há apenas 1 coeficiente, ele é o retorno.
 	 * @return o f(x).
 	 */
 	public Complex f(Complex x) {

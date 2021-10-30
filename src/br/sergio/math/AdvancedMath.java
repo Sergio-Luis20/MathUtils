@@ -1379,53 +1379,62 @@ public final class AdvancedMath {
 		try {
 			return b % a == 0;
 		} catch(ArithmeticException e) {
-			throw new MathException("a nãopode ser 0.", e);
+			throw new MathException("a não pode ser 0.", e);
 		}
 	}
 	
 	/**
-	 * Mínimo Múltiplo Comum (MMC). Se algum dos valores for
-	 * igual a 0 ou todos os valores forem iguais a 1,
-	 * é retornado 1. Este método trabalha com valores positivos;
-	 * se algum elemento negativo for encontrado, seu módulo será
-	 * usado. O resultado retornado é sempre positivo.
+	 * Mínimo Múltiplo Comum (MMC). Se o array for vazio, contiver só 1 elemento,
+	 * ou todos os elementos forem 0, é retornado 1. Este método trabalha com
+	 * valores positivos; se algum elemento negativo for encontrado, seu módulo
+	 * será usado. O resultado retornado é sempre positivo.
 	 * @param values os valores para calcular o mmc.
 	 * @return o mmc.
 	 */
 	public static int lcm(int... values) {
-		int lcm = 1;
-		int[] x = values;
-		for(int i = 0; i < x.length; i++) {
-			if(x[i] == 0) {
-				return lcm;
-			} else if(x[i] < 0) {
-				x[i] = -x[i];
-			}
+		if(values.length == 0 || values.length == 1) {
+			return 1;
 		}
-		boolean one = true;
-		for(int i = 0; i < x.length; i++) {
-			if(x[i] != 1) {
-				one = false;
+		boolean allZero = true;
+		for(int i = 0; i < values.length; i++) {
+			if(values[i] != 0) {
+				allZero = false;
 				break;
 			}
 		}
-		if(one) {
-			return lcm;
+		if(allZero) {
+			return 1;
+		}
+		List<Integer> significantList = new ArrayList<>();
+		for(int i = 0; i < values.length; i++) {
+			int value = values[i];
+			if(value != 0) {
+				significantList.add((int) abs(value));
+			}
+		}
+		int size = significantList.size();
+		if(size == 1) {
+			return 1;
+		}
+		Integer[] significantArray = significantList.toArray(new Integer[size]);
+		int[] array = new int[size];
+		for(int i = 0; i < size; i++) {
+			array[i] = significantArray[i];
 		}
 		List<Integer> y = new ArrayList<>();
 		boolean end = false;
 		while(!end) {
-			for(int i = 0; i < x.length; i++) {
-				for(int j = 2; j <= x[i]; j++) {
-					if(x[i] % j == 0) {
+			for(int i = 0; i < array.length; i++) {
+				for(int j = 2; j <= array[i]; j++) {
+					if(array[i] % j == 0) {
 						y.add(j);
-						for(int k = 0; k < x.length; k++) {
-							if(x[k] % j == 0) {
-								x[k] /= j;
+						for(int k = 0; k < array.length; k++) {
+							if(array[k] % j == 0) {
+								array[k] /= j;
 							}
 						}
-						for(int k = 0; k < x.length; k++) {
-							if(x[k] != 1) {
+						for(int k = 0; k < array.length; k++) {
+							if(array[k] != 1) {
 								end = false;
 								break;
 							} else {
@@ -1437,6 +1446,7 @@ public final class AdvancedMath {
 				}
 			}
 		}
+		int lcm = 1;
 		for(int z : y) {
 			lcm *= z;
 		}
@@ -1444,96 +1454,76 @@ public final class AdvancedMath {
 	}
 	
 	/**
-	 * Máximo Divisor Comum (MDC). Se algum dos valores for
-	 * igual a 0 ou todos os valores forem iguais a 1,
-	 * é retornado 1. Este método trabalha com valores positivos;
-	 * se algum elemento negativo for encontrado, seu módulo será
-	 * usado. O resultado retornado é sempre positivo.
+	 * Máximo Divisor Comum (MDC). Se o array for vazio, todos os valores
+	 * forem 0 ou algum deles for 1, é retornado 1. Este método trabalha
+	 * com valores positivos: se algum elemento negativo for encontrado,
+	 * seu módulo será usado. O resultado retornado é sempre positivo.
 	 * @param values os valores para calcular o mdc.
 	 * @return o mdc.
 	 */
 	public static int gcd(int... values) {
-		int gcd = 1;
-		int[] x = values;
-		for(int i = 0; i < x.length; i++) {
-			if(x[i] == 0) {
-				return gcd;
-			} else if(x[i] < 0) {
-				x[i] = -x[i];
-			}
+		if(values.length == 0) {
+			return 1;
+		} else if(values.length == 1) {
+			return values[0] == 0 ? 1 : (int) abs(values[0]);
 		}
-		boolean one = true;
-		for(int i = 0; i < x.length; i++) {
-			if(x[i] != 1) {
-				one = false;
+		boolean allZero = true;
+		for(int i = 0; i < values.length; i++) {
+			int value = values[i];
+			if(value == 1) {
+				return 1;
+			}
+			if(value != 0) {
+				allZero = false;
 				break;
 			}
 		}
-		if(one) {
-			return gcd;
+		if(allZero) {
+			return 1;
 		}
-		boolean init = false;
-		for(int i = 1; i <= x[0]; i++) {
-			init = false;
-			for(int j = 0; j < x.length; j++) {
-				if((i == 1 && x[j] % i == 0) || !(x[j] % i == 0)) {
-					init = true;
+		List<Integer> significantList = new ArrayList<>();
+		for(int i = 0; i < values.length; i++) {
+			int value = values[i];
+			if(value != 0) {
+				significantList.add((int) abs(value));
+			}
+		}
+		int size = significantList.size();
+		if(size == 1) {
+			return significantList.get(0);
+		}
+		Integer[] significantArray = significantList.toArray(new Integer[size]);
+		int[] array = new int[size];
+		for(int i = 0; i < size; i++) {
+			array[i] = significantArray[i];
+		}
+		int min = smallest(array);
+		int divisor = 2;
+		List<Integer> portions = new ArrayList<>();
+		while(divisor <= min) {
+			int currentDivisor = divisor;
+			for(int num : array) {
+				if(!(num % divisor == 0)) {
+					if(divisor == min / 2) {
+						divisor = min;
+					} else {
+						divisor++;
+					}
 					break;
 				}
 			}
-			if(!init) {
-				break;
-			}
-		}
-		if(init) {
-			return gcd;
-		}
-		boolean end = false;
-		List<Integer> y = new ArrayList<>();
-		for(int i = 0; i < x.length; i++) {
-			for(int j = x.length - 1; j >= 0; j--) {
-				if(x[i] > x[j]) {
-					int backup = x[i];
-					x[i] = x[j];
-					x[j] = backup;
+			if(currentDivisor == divisor) {
+				portions.add(divisor);
+				for(int i = 0; i < array.length; i++) {
+					array[i] = array[i] / divisor;
 				}
 			}
 		}
-		while(!end) {
-			ext:
-			for(int i = 2; i <= x[0]; i++) {
-				boolean div = true;
-				for(int j = 0; j < x.length; j++) {
-					if(!(x[j] % i == 0)) {
-						div = false;
-						break;
-					}
-				}
-				if(div) {
-					for(int j = 0; j < x.length; j++) {
-						x[j] /= i;
-					}
-					y.add(i);
-					break ext;
-				}
-			}
-			for(int i = 2; i <= x[0]; i++) {
-				end = false;
-				for(int j = 0; j < x.length; j++) {
-					if(!(x[j] % i == 0)) {
-						end = true;
-						break;
-					}
-				}
-				if(!end) {
-					break;
-				}
-			}
+		int result = 1;
+		for(int portion : portions) {
+			result *= portion;
 		}
-		for(int z : y) {
-			gcd *= z;
-		}
-		return gcd;
+		return result;
 	}
 	
 	/**
@@ -1613,8 +1603,29 @@ public final class AdvancedMath {
 		}
 		double biggest = values[0];
 		for(int i = 0; i < values.length - 1; i++) {
-			if(values[i + 1] > biggest) {
-				biggest = values[i + 1];
+			double value = values[i + 1];
+			if(value > biggest) {
+				biggest = value;
+			}
+		}
+		return biggest;
+	}
+	
+	/**
+	 * Retorna o maior valor de um array de valores dados.
+	 * Se o array estiver vazia, é retornado 0.
+	 * @param values os valores.
+	 * @return o maior dos valores.
+	 */
+	public static int biggest(int... values) {
+		if(values.length == 0) {
+			return 0;
+		}
+		int biggest = values[0];
+		for(int i = 0; i < values.length - 1; i++) {
+			int value = values[i + 1];
+			if(value > biggest) {
+				biggest = value;
 			}
 		}
 		return biggest;
@@ -1632,8 +1643,29 @@ public final class AdvancedMath {
 		}
 		double smallest = values[0];
 		for(int i = 0; i < values.length - 1; i++) {
-			if(values[i + 1] < smallest) {
-				smallest = values[i + 1];
+			double value = values[i + 1];
+			if(value < smallest) {
+				smallest = value;
+			}
+		}
+		return smallest;
+	}
+	
+	/**
+	 * Retorna o menor valor de um array de valores dados.
+	 * Se o array estiver vazio, é retornado 0.
+	 * @param values os valores.
+	 * @return o menor dos valores.
+	 */
+	public static int smallest(int... values) {
+		if(values.length == 0) {
+			return 0;
+		}
+		int smallest = values[0];
+		for(int i = 0; i < values.length - 1; i++) {
+			int value = values[i + 1];
+			if(value < smallest) {
+				smallest = value;
 			}
 		}
 		return smallest;
