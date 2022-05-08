@@ -87,13 +87,25 @@ public class Line3D implements Serializable	 {
 		return vector.getZ() * t + point.getZ();
 	}
 	
+	public boolean geometricallyEquals(Line3D line) {
+		if(line == null) {
+			return false;
+		}
+		if(line == this) {
+			return true;
+		}
+		return hasPoint(line.point) && vector.isMultipleOf(line.vector);
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if(o == null) {
 			return false;
 		}
-		if(o instanceof Line3D) {
-			Line3D line = (Line3D) o;
+		if(o == this) {
+			return true;
+		}
+		if(o instanceof Line3D line) {
 			return point.equals(line.point) && vector.equals(line.vector);
 		}
 		return false;

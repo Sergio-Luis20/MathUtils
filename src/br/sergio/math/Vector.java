@@ -148,7 +148,7 @@ public class Vector implements Serializable {
 		double i = y * v.z - v.y * z;
 		double j = v.x * z - x * v.z;
 		double k = x * v.y - v.x * y;
-		return new Point(i, j, k).toVector();
+		return new Vector(i, j, k);
 	}
 	
 	/**
@@ -170,8 +170,7 @@ public class Vector implements Serializable {
 	 * @return true se for múltiplo, false caso contrário.
 	 */
 	public boolean isMultipleOf(Vector v) {
-		double angle = angle(v);
-		return angle == 0 || angle == AdvancedMath.PI;
+		return crossProduct(v).equals(NULL);
 	}
 	
 	/**
@@ -216,11 +215,17 @@ public class Vector implements Serializable {
 			return AdvancedMath.arccos(dotProduct(v) / (magnitude * v.magnitude));
 		}
 	}
-
+	
+	/**
+	 * @return a origem.
+	 */
 	public Point getOrigin() {
 		return origin;
 	}
-
+	
+	/**
+	 * @return a extremidade.
+	 */
 	public Point getEnd() {
 		return end;
 	}

@@ -79,7 +79,7 @@ public final class Complex extends Number implements Comparable<Complex> {
 	 * Operação divisão. (a + bi) / (c + di).
 	 * @param c o complexo divisor deste.
 	 * @return o complexo quociente.
-	 * @throws MathException se c for 0.
+	 * @throws MathException se o complexo divisor for 0.
 	 */
 	public Complex divide(Complex c) {
 		double denom = AdvancedMath.pow(c.real, 2) + AdvancedMath.pow(c.imaginary, 2);
@@ -122,8 +122,8 @@ public final class Complex extends Number implements Comparable<Complex> {
 		}
 		double theta = exp.real * argument + exp.imaginary * AdvancedMath.ln(modulus);
 		double factor = AdvancedMath.pow(modulus, exp.real) * AdvancedMath.pow(AdvancedMath.E, -exp.imaginary * argument);
-		double real = AdvancedMath.cos(theta, true) * factor;
-		double imaginary = AdvancedMath.sin(theta, true) * factor;
+		double real = AdvancedMath.cos(theta) * factor;
+		double imaginary = AdvancedMath.sin(theta) * factor;
 		return new Complex(real, imaginary);
 	}
 	
@@ -311,7 +311,7 @@ public final class Complex extends Number implements Comparable<Complex> {
 	}
 	
 	/**
-	 * @return o argumento deste complexo. O argumento é nada mais nada menos que o ângulo
+	 * @return o argumento deste complexo. O argumento é nada mais, nada menos, que o ângulo
 	 * que a reta constituída pela origem e pelo par ordenado (a, b) (sendo a a parte real
 	 * e b a parte imaginária) formam com a reta real no plano complexo.
 	 */
