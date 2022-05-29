@@ -264,6 +264,24 @@ public class Matrix implements Serializable {
 	}
 	
 	/**
+	 * Potência de matrizes. Só funciona para matrizes quadradas e expoentes
+	 * naturais. Caso as duas condições anteriores não sejam atendidas, é
+	 * retornado null. Elevar a 0 retorna a matriz identidade.
+	 * @param exponent o expoente.
+	 * @return a matriz elevada ao expoente dado.
+	 */
+	public Matrix pow(int exponent) {
+		if(!isSquare() || exponent < 0) {
+			return null;
+		}
+		Matrix result = getIdentity(getOrder());
+		for(int i = 0; i < exponent; i++) {
+			result = result.multiply(this);
+		}
+		return result;
+	}
+	
+	/**
 	 * Multiplicação de matrizes. É importante dizer que para que
 	 * a multiplicação de matrizes funcione, a quantidade de colunas
 	 * da primeira deve ser igual ao número de linhas da segunda. Assim
